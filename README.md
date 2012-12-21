@@ -1,1 +1,1 @@
-A basic game of chess, player through the command line. 
+A basic game of chess, played through the command line. 
