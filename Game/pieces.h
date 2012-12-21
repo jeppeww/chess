@@ -8,3 +8,18 @@
 //
 //  Description: 
 //
+
+#include "structs.h"
+class Board;
+
+class Piece 
+{
+
+public:
+
+
+
+private:
+
+	Board* m_Board;
+}
