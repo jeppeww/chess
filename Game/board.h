@@ -9,3 +9,24 @@
 //
 //  Description: 
 //
+
+#include "structs.h"
+class Pieces;
+
+class Board
+{
+
+public:
+	Board();
+	~Board();
+
+	Pieces* getPieceInPosition(Point _Position);
+	Pieces* getWhitePiece(int _Index);
+	Pieces* getBlackPiece(int _Index);
+
+private:
+	Pieces* m_Board [8][8];
+	Pieces* m_BlackPieces [16];
+	Pieces* m_WhitePieces [16];
+
+}
