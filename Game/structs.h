@@ -6,7 +6,7 @@
 //	Copyright (c) 2012 by Jesper Persson & Jesper Wikström. All Rights Reserved.
 //  Date: 		21/12-2012
 //
-//  Description: 
+//  Description: Contains different kinds of helper data.
 //
 
 
