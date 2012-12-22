@@ -35,6 +35,8 @@ public:
 	void kill();
 	// Returns the owner of the piece.
 	Players getOwner();
+	// Returns the character for the Piece
+	virtual char getChar() = 0;
 
 protected:
 	int m_Index;
@@ -48,6 +50,7 @@ class King : public Piece
 public:
 	King(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
 	virtual Moves canMove(Point _Destination);
+	virtual char getChar(){ return (m_Owner == WHITE) ? 'k' : 'K';}
 };
 
 class Queen : public Piece
@@ -55,6 +58,7 @@ class Queen : public Piece
 public:
 	Queen(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
 	virtual Moves canMove(Point _Destination);
+	virtual char getChar(){ return (m_Owner == WHITE) ? 'q' : 'Q';}
 };
 
 class Rook : public Piece
@@ -62,6 +66,7 @@ class Rook : public Piece
 public:
 	Rook(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
 	virtual Moves canMove(Point _Destination);
+	virtual char getChar(){ return (m_Owner == WHITE) ? 'r' : 'R';}
 };
 
 class Bishop : public Piece
@@ -69,6 +74,7 @@ class Bishop : public Piece
 public:
 	Bishop(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
 	virtual Moves canMove(Point _Destination);
+	virtual char getChar(){ return (m_Owner == WHITE) ? 'b' : 'B';}
 };
 
 class Knight : public Piece
@@ -76,6 +82,7 @@ class Knight : public Piece
 public:
 	Knight(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
 	virtual Moves canMove(Point _Destination);
+	virtual char getChar(){ return (m_Owner == WHITE) ? 'n' : 'N';}
 };
 
 class Pawn : public Piece
@@ -83,4 +90,5 @@ class Pawn : public Piece
 public:
 	Pawn(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
 	virtual Moves canMove(Point _Destination);
+	virtual char getChar(){ return (m_Owner == WHITE) ? 'p' : 'P';}
 };
