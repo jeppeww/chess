@@ -17,26 +17,27 @@ class Board;
 class Piece 
 {
 public:
-	Piece(Point _Position, Players _Owner, Board* _Board)
+	Piece(Point _Position, Players _Owner, int _Index, Board* _Board)
 	{
 		m_Position = _Position;
 		m_Owner = _Owner;
+		m_Index = _Index;
 		m_Board = _Board;
 	}
 	~Piece(){}
 	// Return the position of the piece.
-	Point getPosition()
-	{
-		return m_Position;
-	}
+	Point getPosition();
 	// Set the position of the piece.
 	void setPosition(Point _Position);
 	// Return true if the piece can move to the specicied position, otherwise false.
-	virtual bool canMove(Point _Destination) = 0;
+	virtual Moves canMove(Point _Destination) = 0;
 	// Destroy the piece.
 	void kill();
+	// Returns the owner of the piece.
+	Players getOwner();
 
-private:
+protected:
+	int m_Index;
 	Point m_Position;
 	Board* m_Board;
 	Players m_Owner;
@@ -45,41 +46,41 @@ private:
 class King : public Piece
 {
 public:
-	King(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
-	virtual bool canMove(Point _Destination);
+	King(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
+	virtual Moves canMove(Point _Destination);
 };
 
 class Queen : public Piece
 {
 public:
-	Queen(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
-	virtual bool canMove(Point _Destination);
+	Queen(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
+	virtual Moves canMove(Point _Destination);
 };
 
 class Rook : public Piece
 {
 public:
-	Rook(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
-	virtual bool canMove(Point _Destination);
+	Rook(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
+	virtual Moves canMove(Point _Destination);
 };
 
 class Bishop : public Piece
 {
 public:
-	Bishop(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
-	virtual bool canMove(Point _Destination);
+	Bishop(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
+	virtual Moves canMove(Point _Destination);
 };
 
 class Knight : public Piece
 {
 public:
-	Knight(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
-	virtual bool canMove(Point _Destination);
+	Knight(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
+	virtual Moves canMove(Point _Destination);
 };
 
 class Pawn : public Piece
 {
 public:
-	Pawn(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
-	virtual bool canMove(Point _Destination);
+	Pawn(Point _Position, Players _Owner, int _Index, Board* _Board) : Piece(_Position, _Owner, _Index, _Board) {}
+	virtual Moves canMove(Point _Destination);
 };

@@ -10,6 +10,8 @@
 //
 #pragma once
 
+#include <math.h>
+
 class Point
 {
 public:
@@ -23,6 +25,22 @@ public:
 		m_X = _X;
 		m_Y = _Y;
 	}
+	bool operator==(const Point& _Point)
+	{
+		return (m_X = _Point.m_X && m_Y == _Point.m_Y);
+	}
+	Point operator-(const Point& _Point)
+	{
+		return Point(m_X - _Point.m_X , m_Y - _Point.m_Y);
+	}
+	float Length()
+	{
+		return sqrtf((float)(m_X * m_X + m_Y * m_Y));
+	}
+	int LengthSquared()
+	{
+		return m_X * m_X + m_Y * m_Y;
+	}
 	int m_X, m_Y;
 };
 
@@ -30,4 +48,13 @@ enum Players
 {
 	BLACK = 1,
 	WHITE = -1
+};
+
+enum Moves
+{
+	CANT,
+	MOVE,
+	KILL,
+	CASTLING,
+	ENPASSANT
 };

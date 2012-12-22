@@ -13,33 +13,82 @@
 #include "pieces.h"
 #include "board.h"
 
-
-bool King::canMove(Point _Destination)
+inline bool ValidDestination(Point _Destination)
 {
-	return false;
+	return !(_Destination.m_X > 7 || _Destination.m_X < 0 || _Destination.m_Y > 7 || _Destination.m_Y < 0);
 }
 
-bool Queen::canMove(Point _Destination)
+Point Piece::getPosition()
 {
-	return false;
+	return m_Position;
 }
 
-bool Rook::canMove(Point _Destination)
+void Piece::setPosition(Point _Position)
 {
-	return false;
+	m_Board->setPieceAtPosition(m_Position, 0);
+	m_Position = _Position;
+	m_Board->setPieceAtPosition(_Position, this);
 }
 
-bool Bishop::canMove(Point _Destination)
+void Piece::kill()
 {
-	return false;
+	m_Board->setPieceAtPosition(m_Position, 0);
+	if(m_Owner == Players::WHITE)
+		m_Board->getWhitePieces()[m_Index] = 0;
+	else
+		m_Board->getBlackPieces()[m_Index] = 0;
+	delete this;
 }
 
-bool Knight::canMove(Point _Destination)
+Players Piece::getOwner()
 {
-	return false;
+	return m_Owner;
 }
 
-bool Pawn::canMove(Point _Destination)
+Moves King::canMove(Point _Destination)
 {
-	return false;
+	if(!ValidDestination(_Destination) || _Destination == m_Position)
+		return CANT;
+
+	Point diff = m_Position - _Destination;
+
+	if(diff.LengthSquared() >= 4)
+		return CANT;
+
+	Piece* destPiece = m_Board->getPieceInPosition(_Destination);
+	if (destPiece != 0)
+	{
+		if(destPiece->getOwner() == m_Owner)
+			//TODO: Castling should probably be in here?
+			return CANT;
+		else
+			return KILL;
+	}
+	else
+		return MOVE;
+}
+
+Moves Queen::canMove(Point _Destination)
+{
+	return CANT;
+}
+
+Moves Rook::canMove(Point _Destination)
+{
+	return CANT;
+}
+
+Moves Bishop::canMove(Point _Destination)
+{
+	return CANT;
+}
+
+Moves Knight::canMove(Point _Destination)
+{
+	return CANT;
+}
+
+Moves Pawn::canMove(Point _Destination)
+{
+	return CANT;
 }
