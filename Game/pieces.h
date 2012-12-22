@@ -9,15 +9,15 @@
 //  Description: A class for representing a general Piece. Should be used as a abstract class, and thus, never be implemented, only inherited.
 //  Contains a position and an owner (black or white). Keeps a reference to the gameboard upon which it is placed.
 //
+#pragma once
 
 #include "structs.h"
 class Board;
 
 class Piece 
 {
-
 public:
-	Piece (Point _Position, Players _Owner, Board* _Board)
+	Piece(Point _Position, Players _Owner, Board* _Board)
 	{
 		m_Position = _Position;
 		m_Owner = _Owner;
@@ -32,7 +32,7 @@ public:
 	// Set the position of the piece.
 	void setPosition(Point _Position);
 	// Return true if the piece can move to the specicied position, otherwise false.
-	virtual bool canMove (Point _Destination) = 0;
+	virtual bool canMove(Point _Destination) = 0;
 	// Destroy the piece.
 	void kill();
 
@@ -40,4 +40,46 @@ private:
 	Point m_Position;
 	Board* m_Board;
 	Players m_Owner;
-}
+};
+
+class King : public Piece
+{
+public:
+	King(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
+	virtual bool canMove(Point _Destination);
+};
+
+class Queen : public Piece
+{
+public:
+	Queen(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
+	virtual bool canMove(Point _Destination);
+};
+
+class Rook : public Piece
+{
+public:
+	Rook(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
+	virtual bool canMove(Point _Destination);
+};
+
+class Bishop : public Piece
+{
+public:
+	Bishop(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
+	virtual bool canMove(Point _Destination);
+};
+
+class Knight : public Piece
+{
+public:
+	Knight(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
+	virtual bool canMove(Point _Destination);
+};
+
+class Pawn : public Piece
+{
+public:
+	Pawn(Point _Position, Players _Owner, Board* _Board) : Piece(_Position, _Owner, _Board) {}
+	virtual bool canMove(Point _Destination);
+};

@@ -13,3 +13,33 @@
 #include "pieces.h"
 #include "board.h"
 
+
+bool King::canMove(Point _Destination)
+{
+	return false;
+}
+
+bool Queen::canMove(Point _Destination)
+{
+	return false;
+}
+
+bool Rook::canMove(Point _Destination)
+{
+	return false;
+}
+
+bool Bishop::canMove(Point _Destination)
+{
+	return false;
+}
+
+bool Knight::canMove(Point _Destination)
+{
+	return false;
+}
+
+bool Pawn::canMove(Point _Destination)
+{
+	return false;
+}

@@ -8,3 +8,10 @@
 //
 //  Description: 
 //
+#include "pieces.h"
+#include "board.h"
+
+void main()
+{
+
+}

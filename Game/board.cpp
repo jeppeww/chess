@@ -13,7 +13,7 @@
 #include "board.h"
 #include "pieces.h"
 
-Board::Board ()
+Board::Board()
 {
 	//Clear middle of board.
 	for (int y = 2; y < 6; y++)
@@ -24,20 +24,21 @@ Board::Board ()
 		}
 	}
 
+	m_Board[0][0] = new Pawn(Point(0,0), Players::BLACK, this);
 	//TODO create pieces in fitting locations.
 }
 
-Pieces* Board::getPieceInPosition(Point _Position)
+Piece* Board::getPieceInPosition(Point _Position)
 {
 	return m_Board[_Position.m_X][_Position.m_Y];
 }
 
-Pieces* Board::getWhitePiece(int _Index)
+Piece* Board::getWhitePiece(int _Index)
 {
 	return m_WhitePieces[_Index];
 }
 
-Pieces* Board::getBlackPiece(int _Index)
+Piece* Board::getBlackPiece(int _Index)
 {
 	return m_BlackPieces[_Index];
 }
@@ -47,11 +48,11 @@ void Board::setPieceAtPosition(Point _Position, Piece* _Piece)
 	m_Board[_Position.m_X][_Position.m_Y] = _Piece;
 }
 
-Pieces* Board::getWhitePieces()
+Piece** Board::getWhitePieces()
 {
 	return m_WhitePieces;
 }
-Pieces* Board::getBlackPieces()
+Piece** Board::getBlackPieces()
 {
 	return m_BlackPieces;
 }
