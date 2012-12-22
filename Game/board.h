@@ -24,6 +24,11 @@ public:
 	Pieces* getWhitePiece(int _Index);
 	Pieces* getBlackPiece(int _Index);
 
+	void setPieceAtPosition(Point _Position, Piece* _Piece);
+
+	Pieces* getWhitePieces();
+	Pieces* getBlackPieces();
+
 private:
 	Pieces* m_Board [8][8];
 	Pieces* m_BlackPieces [16];
