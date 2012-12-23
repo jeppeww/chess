@@ -167,6 +167,8 @@ Moves Pawn::canMove(Point _Destination)
 			return CANT;
 		else if(abs(diff.m_X) == 1 && diff.m_Y == m_Owner) //only if it's a diagonal move
 			return KILL;
+		else
+			return CANT;
 	}
 	else
 		return MOVE;

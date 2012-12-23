@@ -70,3 +70,13 @@ enum Moves
 	CASTLING,
 	ENPASSANT
 };
+
+enum PieceTypes
+{
+	KING,
+	QUEEN,
+	ROOK,
+	BISHOP,
+	KNIGHT,
+	PAWN
+};
