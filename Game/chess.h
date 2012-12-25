@@ -9,3 +9,16 @@
 //
 //  Description: 
 //
+#pragma once
+#include "board.h"
+
+class Chess
+{
+public:
+	Chess();
+	~Chess();
+	Piece* GetPieceAt(Point _Position);
+	bool Move(Point _Position, Point _Destination);
+private:
+	Board m_Board;
+};

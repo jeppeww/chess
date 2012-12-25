@@ -62,6 +62,11 @@ Board::Board()
 	m_WhitePieces[15] = m_Board[7][6] = new Pawn(Point(7,6), Players::WHITE, 15, this);
 }
 
+Board::~Board()
+{
+
+}
+
 Piece* Board::getPieceInPosition(Point _Position)
 {
 	return m_Board[_Position.m_X][_Position.m_Y];

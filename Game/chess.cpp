@@ -9,3 +9,24 @@
 //
 //  Description: 
 //
+#include "chess.h"
+
+Chess::Chess()
+{
+
+}
+
+Chess::~Chess()
+{
+
+}
+
+Piece* Chess::GetPieceAt(Point _Position)
+{
+	return m_Board.getPieceInPosition(_Position);
+}
+
+bool Chess::Move(Point _Position, Point _Destination)
+{
+	return false;
+}

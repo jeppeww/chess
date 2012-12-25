@@ -10,7 +10,11 @@
 //
 #pragma once
 
-#include <math.h>
+inline int abs(const int _Input)
+{
+	int s = _Input >> 31;
+	return (_Input ^ s) - s;
+}
 
 class Point
 {
@@ -41,10 +45,10 @@ public:
 	{
 		return Point(m_X * _Factor, m_Y * _Factor);
 	}
-	float Length()
+	/*float Length()
 	{
 		return sqrtf((float)(m_X * m_X + m_Y * m_Y));
-	}
+	}*/
 	int LengthSquared()
 	{
 		return m_X * m_X + m_Y * m_Y;

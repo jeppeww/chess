@@ -14,6 +14,7 @@
 #pragma once
 
 #include "structs.h"
+
 class Piece;
 
 class Board

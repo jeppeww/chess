@@ -8,14 +8,18 @@
 //
 //  Description: 
 //
+#include "chess.h"
 #include "pieces.h"
-#include "board.h"
+#include <stdio.h>
+
+
+Chess ChessGame;
 
 //returns the apropriate character to display for each piece/player combination
 char GetChar(Piece* _Piece)
 {
 	if(_Piece == 0)
-		return ' ';
+		return '_';
 	switch (_Piece->getType())
 	{
 	case KING:
@@ -35,7 +39,21 @@ char GetChar(Piece* _Piece)
 	}
 }
 
-void main()
+void Render()
 {
+	for(int y = 0; y < 8; y++)
+	{
+		printf("%i ",8-y);
+		for(int x = 0; x < 8; x++)
+			printf("|%c",GetChar(ChessGame.GetPieceAt(Point(x,y))));
+		printf("|\n");
+	}
+	printf("   a b c d e f g h");
+}
 
+int main()
+{
+	Render();
+	getchar();
+	return 0;
 }
