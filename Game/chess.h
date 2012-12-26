@@ -19,6 +19,7 @@ public:
 	Chess();
 	~Chess();
 	Piece* GetPieceAt(Point _Position);
+	Moves TryMove(Point _Position, Point _Destination);
 	bool Move(Point _Position, Point _Destination);
 	void ChangeTurn();
     GameState StateOfGame();
