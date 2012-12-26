@@ -11,6 +11,7 @@
 //
 #pragma once
 #include "board.h"
+#include "structs.h"
 
 class Chess
 {
@@ -20,7 +21,9 @@ public:
 	Piece* GetPieceAt(Point _Position);
 	bool Move(Point _Position, Point _Destination);
 	void ChangeTurn();
+    GameState StateOfGame();
 private:
+    bool CanPreventCheck(Piece* _Piece);
 	bool InCheck(Players _Player);
 	Board m_Board;
 	Players m_CurrentPlayer;

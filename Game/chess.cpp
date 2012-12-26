@@ -111,6 +111,25 @@ bool Chess::InCheck(Players _Player)
 	return false;
 }
 
+GameState Chess::StateOfGame()
+{
+    Piece** playersPieces = m_CurrentPlayer == WHITE ?
+        m_Board.getWhitePieces() : m_Board.getBlackPieces();
+    
+    for (int i = 0; i < 16; i++)
+    {
+        if (CanPreventCheck(playersPieces[i]))
+            return UNDECIDED;
+    }
+    return InCheck(m_CurrentPlayer) ? CHECKMATE : DRAW;
+}
+
+bool Chess::CanPreventCheck(Piece* _Piece)
+{
+    //TODO fix the check
+    return true;
+}
+
 void Chess::ChangeTurn()
 {
 	m_CurrentPlayer = m_CurrentPlayer == WHITE ? BLACK : WHITE;
