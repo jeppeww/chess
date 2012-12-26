@@ -10,6 +10,8 @@
 //
 #pragma once
 
+#define KINGINDEX 4
+
 inline int abs(const int _Input)
 {
 	int s = _Input >> 31;

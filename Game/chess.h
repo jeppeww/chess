@@ -20,5 +20,7 @@ public:
 	Piece* GetPieceAt(Point _Position);
 	bool Move(Point _Position, Point _Destination);
 private:
+	bool InCheck(Players _Player);
 	Board m_Board;
+	Players m_CurrentPlayer;
 };
