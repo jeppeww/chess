@@ -90,6 +90,8 @@ bool Chess::Move(Point _Position, Point _Destination)
 	}
 	if(moveResult != DOUBLE)
 		m_Board.setEnPassant(0); //resets the enPassant unless a pawn did a DOUBLE move.
+	if(returnResult)
+		movingPiece->IncrementNumMoves(); //used for pawns and Castling.
 	return returnResult;
 }
 

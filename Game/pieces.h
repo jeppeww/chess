@@ -40,6 +40,8 @@ public:
 	Players getOwner();
 	// Returns the character for the Piece
 	virtual PieceTypes getType() = 0;
+	// Increments the number of moves this Piece has done.
+	void IncrementNumMoves();
 
 protected:
 	//Checks wether the position is on the board and isn't on the piece istelf

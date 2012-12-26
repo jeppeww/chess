@@ -81,6 +81,11 @@ Players Piece::getOwner()
 	return m_Owner;
 }
 
+void Piece::IncrementNumMoves()
+{
+	m_NumMoves++;
+}
+
 Moves King::canMove(Point _Destination)
 {
 	if(!ValidDestination(_Destination))
