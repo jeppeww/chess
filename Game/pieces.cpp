@@ -58,14 +58,22 @@ void Piece::setPosition(Point _Position)
 	m_Board->setPieceAtPosition(_Position, this);
 }
 
-void Piece::kill()
+void Piece::detach()
 {
 	m_Board->setPieceAtPosition(m_Position, 0);
 	if(m_Owner == Players::WHITE)
 		m_Board->getWhitePieces()[m_Index] = 0;
 	else
 		m_Board->getBlackPieces()[m_Index] = 0;
-	delete this;
+}
+
+void Piece::attach()
+{
+	m_Board->setPieceAtPosition(m_Position, this);
+	if(m_Owner == Players::WHITE)
+		m_Board->getWhitePieces()[m_Index] = this;
+	else
+		m_Board->getBlackPieces()[m_Index] = this;
 }
 
 Players Piece::getOwner()

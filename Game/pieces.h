@@ -32,8 +32,10 @@ public:
 	void setPosition(Point _Position);
 	// Return true if the piece can move to the specicied position, otherwise false.
 	virtual Moves canMove(Point _Destination) = 0;
-	// Destroy the piece.
-	void kill();
+	// Detaches the piece to the board.
+	void detach();
+	// Attaches the piece to the board.
+	void attach();
 	// Returns the owner of the piece.
 	Players getOwner();
 	// Returns the character for the Piece
