@@ -100,3 +100,8 @@ void Board::setEnPassant(Piece* _EnPassant)
 {
 	m_EnPassant = _EnPassant;
 }
+
+Piece* Board::getEnPassant()
+{
+	return m_EnPassant;
+}

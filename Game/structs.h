@@ -74,7 +74,8 @@ enum Moves
 	MOVE,
 	KILL,
 	CASTLING,
-	ENPASSANT
+	ENPASSANT,
+	DOUBLE
 };
 
 enum PieceTypes

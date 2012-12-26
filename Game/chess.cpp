@@ -34,18 +34,24 @@ bool Chess::Move(Point _Position, Point _Destination)
 		return false;
 	if(movingPiece->getOwner() != m_CurrentPlayer)
 		return false;
-	switch(movingPiece->canMove(_Destination))
+	Moves moveResult = movingPiece->canMove(_Destination);
+	bool returnResult;
+	switch(moveResult)
 	{
 	case CANT:
-		return false;
+		returnResult = false;
+		break;
+	case DOUBLE: //DOUBLE and MOVE are handled in the same way.
 	case MOVE:
 		movingPiece->setPosition(_Destination);
 		if(InCheck(m_CurrentPlayer))
 		{
 			movingPiece->setPosition(_Position);
-			return false;
+			returnResult = false;
+			break;
 		}
-		return true;
+		returnResult = true;
+		break;
 	case KILL:
 		{
 			Piece* killedPiece = m_Board.getPieceInPosition(_Destination);
@@ -55,16 +61,36 @@ bool Chess::Move(Point _Position, Point _Destination)
 			{
 				movingPiece->setPosition(_Position);
 				killedPiece->attach();
-				return false;
+				returnResult = false;
+				break;
 			}
 			delete killedPiece;
 		}
-		return true;
+		returnResult = true;
+		break;
 	case CASTLING:
-		return false;
+		returnResult = false;
+		break;
 	case ENPASSANT:
-		return false;
+		Piece* killedPiece = m_Board.getPieceInPosition(Point(_Destination.m_X, _Position.m_Y));
+		killedPiece->detach();
+		movingPiece->setPosition(_Destination);
+		m_Board.setEnPassant(0);
+		if(InCheck(m_CurrentPlayer))
+		{
+			movingPiece->setPosition(_Position);
+			killedPiece->attach();
+			m_Board.setEnPassant(killedPiece);
+			returnResult = false;
+			break;
+		}
+		delete killedPiece;
+		returnResult = true;
+		break;
 	}
+	if(moveResult != DOUBLE)
+		m_Board.setEnPassant(0); //resets the enPassant unless a pawn did a DOUBLE move.
+	return returnResult;
 }
 
 bool Chess::InCheck(Players _Player)

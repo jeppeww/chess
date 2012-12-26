@@ -178,10 +178,21 @@ Moves Pawn::canMove(Point _Destination)
 			return CANT;
 	}
 	else if (absolute(diff.m_X) == 0)
+	{
+		if(absolute(diff.m_Y) == 2)
+		{
+			if(PiecesOnPath(diff))
+				return CANT;
+			m_Board->setEnPassant(this);
+			return DOUBLE;
+		}
 		return MOVE;
+	}
 	else
 	{
-		//TODO: add checks for EnPassant here.
+		destPiece = m_Board->getPieceInPosition(m_Position + Point(diff.m_X, 0));
+		if (destPiece == m_Board->getEnPassant())
+			return ENPASSANT;
 		return CANT;
 	}
 }

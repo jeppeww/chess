@@ -40,6 +40,8 @@ public:
 	Piece** getBlackPieces();
 	// Sets the piece that did a double-move.
 	void setEnPassant(Piece* _EnPassant);
+	// Gets the piece that did a double-move.
+	Piece* getEnPassant();
 private:
 	// The gameboard
 	Piece* m_Board[8][8];
