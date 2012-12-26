@@ -47,16 +47,18 @@ bool Chess::Move(Point _Position, Point _Destination)
 		}
 		return true;
 	case KILL:
-		Piece* killedPiece = m_Board.getPieceInPosition(_Destination);
-		killedPiece->detach();
-		movingPiece->setPosition(_Destination);
-		if(InCheck(m_CurrentPlayer))
 		{
-			movingPiece->setPosition(_Position);
-			killedPiece->attach();
-			return false;
+			Piece* killedPiece = m_Board.getPieceInPosition(_Destination);
+			killedPiece->detach();
+			movingPiece->setPosition(_Destination);
+			if(InCheck(m_CurrentPlayer))
+			{
+				movingPiece->setPosition(_Position);
+				killedPiece->attach();
+				return false;
+			}
+			delete killedPiece;
 		}
-		delete killedPiece;
 		return true;
 	case CASTLING:
 		return false;
@@ -79,4 +81,9 @@ bool Chess::InCheck(Players _Player)
 		}
 	}
 	return false;
+}
+
+void Chess::ChangeTurn()
+{
+	m_CurrentPlayer = m_CurrentPlayer == WHITE ? BLACK : WHITE;
 }

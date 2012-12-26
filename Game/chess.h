@@ -19,6 +19,7 @@ public:
 	~Chess();
 	Piece* GetPieceAt(Point _Position);
 	bool Move(Point _Position, Point _Destination);
+	void ChangeTurn();
 private:
 	bool InCheck(Players _Player);
 	Board m_Board;

@@ -100,7 +100,7 @@ Moves Queen::canMove(Point _Destination)
 	return CANT;
 
 	Point diff = m_Position - _Destination;
-	if((abs(diff.m_X) != 0 && abs(diff.m_Y) != 0) && abs(diff.m_X) != abs(diff.m_Y)) //non-zero in both cardinal directions or length along both axises isn't equal
+	if((absolute(diff.m_X) != 0 && absolute(diff.m_Y) != 0) && absolute(diff.m_X) != absolute(diff.m_Y)) //non-zero in both cardinal directions or length along both axises isn't equal
 		return CANT;
 
 	
@@ -118,7 +118,7 @@ Moves Rook::canMove(Point _Destination)
 	return CANT;
 
 	Point diff = m_Position - _Destination;
-	if(abs(diff.m_X) != 0 && abs(diff.m_Y) != 0) //non-zero in both cardinal directions
+	if(absolute(diff.m_X) != 0 && absolute(diff.m_Y) != 0) //non-zero in both cardinal directions
 		return CANT;
 
 	if ( PiecesOnPath(diff))
@@ -134,7 +134,7 @@ Moves Bishop::canMove(Point _Destination)
 	return CANT;
 
 	Point diff = m_Position - _Destination;
-	if(abs(diff.m_X) != abs(diff.m_Y)) //Length along both axises isn't equal
+	if(absolute(diff.m_X) != absolute(diff.m_Y)) //Length along both axises isn't equal
 		return CANT;
 
 	if ( PiecesOnPath(diff))
@@ -163,7 +163,7 @@ Moves Pawn::canMove(Point _Destination)
 		return CANT;
 
 	Point diff = m_Position - _Destination;
-	if ( !((diff.m_Y == m_Owner) || (diff.m_Y == m_Owner * 2 && m_NumMoves == 0)) || abs(diff.m_X) > 1) //Owner is the direction pawns can move
+	if ( !((diff.m_Y == m_Owner) || (diff.m_Y == m_Owner * 2 && m_NumMoves == 0)) || absolute(diff.m_X) > 1) //Owner is the direction pawns can move
 		return CANT;
 
 	
@@ -172,7 +172,7 @@ Moves Pawn::canMove(Point _Destination)
 	{
 		if(destPiece->getOwner() == m_Owner)
 			return CANT;
-		else if(abs(diff.m_X) == 1 && diff.m_Y == m_Owner) //only if it's a diagonal move
+		else if(absolute(diff.m_X) == 1 && diff.m_Y == m_Owner) //only if it's a diagonal move
 			return KILL;
 		else
 			return CANT;

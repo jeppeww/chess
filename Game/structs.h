@@ -12,7 +12,7 @@
 
 #define KINGINDEX 4
 
-inline int abs(const int _Input)
+inline int absolute(const int _Input)
 {
 	int s = _Input >> 31;
 	return (_Input ^ s) - s;
@@ -57,15 +57,15 @@ public:
 	}
 	Point Normalized() const
 	{
-		return Point( (m_X == 0) ? 0 : m_X / abs(m_X), (m_Y == 0) ? 0 : m_Y / abs(m_Y));
+		return Point( (m_X == 0) ? 0 : m_X / absolute(m_X), (m_Y == 0) ? 0 : m_Y / absolute(m_Y));
 	}
 	int m_X, m_Y;
 };
 
 enum Players
 {
-	BLACK = 1,
-	WHITE = -1
+	BLACK = -1,
+	WHITE = 1
 };
 
 enum Moves

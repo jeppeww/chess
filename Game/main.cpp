@@ -11,6 +11,7 @@
 #include "chess.h"
 #include "pieces.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
 Chess ChessGame;
@@ -41,9 +42,10 @@ char GetChar(Piece* _Piece)
 
 void Render()
 {
-	for(int y = 0; y < 8; y++)
+	printf("\n");
+	for(int y = 7; y > -1; y--)
 	{
-		printf("%i ",8-y);
+		printf("%i ",y+1);
 		for(int x = 0; x < 8; x++)
 			printf("|%c",GetChar(ChessGame.GetPieceAt(Point(x,y))));
 		printf("|\n");
@@ -51,9 +53,48 @@ void Render()
 	printf("   a b c d e f g h");
 }
 
+bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
+{
+	int posX = (int)(_Input[0] - 'a');
+	int posY = (int)(_Input[1] - '1');
+	_Result1.m_X = posX;
+	_Result1.m_Y = posY;
+	int desX = (int)(_Input[3] - 'a');
+	int desY = (int)(_Input[4] - '1');
+	_Result2.m_X = desX;
+	_Result2.m_Y = desY;
+
+	return true;
+}
+
 int main()
 {
-	Render();
-	getchar();
+	while(true)
+	{
+		//system("CLS");
+		Render();
+		bool noProperMove = true;
+		while(noProperMove)
+		{
+			printf("\nInput move (format xy-xy): ");
+			char input[6];
+			fgets(input, 6, stdin);
+			Point position, destination;
+			if(ParseInput(input, position, destination))
+			{
+				noProperMove = ChessGame.Move(position, destination);
+				if(noProperMove)
+				{
+					printf("\nnej");
+				}
+			}
+			else
+			{
+				printf("\nPlease input properly next time.");
+			}
+		}
+		ChessGame.ChangeTurn();
+	}
+
 	return 0;
 }
