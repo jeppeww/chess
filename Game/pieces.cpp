@@ -177,6 +177,11 @@ Moves Pawn::canMove(Point _Destination)
 		else
 			return CANT;
 	}
-	else
+	else if (absolute(diff.m_X) == 0)
 		return MOVE;
+	else
+	{
+		//TODO: add checks for EnPassant here.
+		return CANT;
+	}
 }
