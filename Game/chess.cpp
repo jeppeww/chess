@@ -70,7 +70,7 @@ bool Chess::Move(Point _Position, Point _Destination)
 bool Chess::InCheck(Players _Player)
 {
 	Piece* king = m_CurrentPlayer == WHITE ? m_Board.getWhitePiece(KINGINDEX) : m_Board.getBlackPiece(KINGINDEX);
-	Piece** opposingPieces = m_CurrentPlayer == WHITE ? m_Board.getWhitePieces() : m_Board.getBlackPieces();
+	Piece** opposingPieces = m_CurrentPlayer == BLACK ? m_Board.getWhitePieces() : m_Board.getBlackPieces();
 	Point kingPosition = king->getPosition();
 	for(int i = 0; i < 16; i++)
 	{
