@@ -95,3 +95,8 @@ Piece** Board::getBlackPieces()
 {
 	return m_BlackPieces;
 }
+
+void Board::setEnPassant(Piece* _EnPassant)
+{
+	m_EnPassant = _EnPassant;
+}

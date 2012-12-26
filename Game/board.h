@@ -38,7 +38,8 @@ public:
 	Piece** getWhitePieces();
 	// Returns an array containing every black piece.
 	Piece** getBlackPieces();
-
+	// Sets the piece that did a double-move.
+	void setEnPassant(Piece* _EnPassant);
 private:
 	// The gameboard
 	Piece* m_Board[8][8];
@@ -46,4 +47,6 @@ private:
 	Piece* m_BlackPieces[16];
 	// Array of all white pieces.
 	Piece* m_WhitePieces[16];
+	// The pawn piece that last turn did a double-move.
+	Piece* m_EnPassant;
 };
