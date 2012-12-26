@@ -87,3 +87,10 @@ enum PieceTypes
 	KNIGHT,
 	PAWN
 };
+
+enum GameState
+{
+    CHECKMATE,
+    DRAW,
+    UNDECIDED
+};
