@@ -55,16 +55,49 @@ void Render()
 
 bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
 {
-	int posX = (int)(_Input[0] - 'a');
-	int posY = (int)(_Input[1] - '1');
-	_Result1.m_X = posX;
-	_Result1.m_Y = posY;
-	int desX = (int)(_Input[3] - 'a');
-	int desY = (int)(_Input[4] - '1');
-	_Result2.m_X = desX;
-	_Result2.m_Y = desY;
-
-	return true;
+    int posX, posY, desX, desY;
+    
+    if (_Input[0] >= 'a' && _Input[0] <= 'h')
+    {
+        posX =(int) (_Input[0] - 'a');
+    }
+    else if (_Input[0] >= 'A' && _Input[0] <= 'Z')
+    {
+        posX = (int) (_Input[0] - 'A');
+    }
+    else
+        return false;
+    
+    if (_Input[1] >= '1' && _Input[1] <= '8')
+    {
+        posY =(int) (_Input[1] - '1');
+    }
+    else
+        return false;
+    
+    if (_Input[3] >= 'a' && _Input[3] <= 'h')
+    {
+        desX =(int) (_Input[3] - 'a');
+    }
+    else if (_Input[3] >= 'A' && _Input[3] <= 'Z')
+    {
+        desX = (int) (_Input[3] - 'A');
+    }
+    else
+        return false;
+    
+    if (_Input[4] >= '1' && _Input[4] <= '8')
+    {
+        desY =(int) (_Input[4] - '1');
+    }
+    else
+        return false;
+    
+    _Result1.m_X = posX;
+    _Result1.m_Y = posY;
+    _Result2.m_X = desX;
+    _Result2.m_Y = desY;
+    return true;
 }
 
 int main()
@@ -82,7 +115,7 @@ int main()
 			Point position, destination;
 			if(ParseInput(input, position, destination))
 			{
-				noProperMove = ChessGame.Move(position, destination);
+				noProperMove = !ChessGame.Move(position, destination);
 				if(noProperMove)
 				{
 					printf("\nnej");
