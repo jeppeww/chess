@@ -104,14 +104,13 @@ int main()
 {
 	while(true)
 	{
-		//system("CLS");
 		Render();
 		bool noProperMove = true;
 		while(noProperMove)
 		{
 			printf("\nInput move (format xy-xy): ");
-			char input[6];
-			fgets(input, 6, stdin);
+			char input[100];
+			fgets(input, 100, stdin);
 			Point position, destination;
 			if(ParseInput(input, position, destination))
 			{
