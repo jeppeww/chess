@@ -126,8 +126,11 @@ GameState Chess::StateOfGame()
     
     for (int i = 0; i < 16; i++)
     {
-        if (CanPreventCheck(playersPieces[i]))
-            return UNDECIDED;
+        if (playersPieces[i] != 0)
+        {
+            if (CanPreventCheck(playersPieces[i]))
+                return UNDECIDED;
+        }
     }
     return InCheck(m_CurrentPlayer) ? CHECKMATE : DRAW;
 }
