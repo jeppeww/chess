@@ -72,7 +72,7 @@ Moves Chess::TryMove(Point _Position, Point _Destination)
 		check = InCheck(m_CurrentPlayer);
 		movingPiece->setPosition(_Position);
 		if(check)
-			return CANT;
+			return CHECK;
 		return moveResult;
 	case KILL:
 		{
@@ -83,7 +83,7 @@ Moves Chess::TryMove(Point _Position, Point _Destination)
 			movingPiece->setPosition(_Position);
 			killedPiece->attach();
 			if(check)
-				return CANT;
+				return CHECK;
 			return KILL;
 		}
 	case CASTLING:
@@ -98,7 +98,7 @@ Moves Chess::TryMove(Point _Position, Point _Destination)
 		killedPiece->attach();
 		m_Board.setEnPassant(killedPiece);
 		if(check)
-			return CANT;
+			return CHECK;
 		return ENPASSANT;
 	}
 }
@@ -137,7 +137,34 @@ GameState Chess::StateOfGame()
 
 bool Chess::CanPreventCheck(Piece* _Piece)
 {
-    //TODO fix the check
+    Point curPos = _Piece->getPosition();
+    static const int diretions [4] = {0, 1, -1, 0};
+    
+    switch (_Piece->getType())
+    {
+        case ROOK:
+            for (int i = 0; i < 4; i++)
+            {
+                for (int l = 1; l < 8; l++)
+                {
+                    Moves attemptedMove = TryMove(curPos, curPos + Point(l * diretions[i],
+                                                                         l * diretions[(2 + i) % 4]));
+                    if (attemptedMove == CANT)
+                        break;
+                    if (attemptedMove == CHECK)
+                        continue;
+                    
+                    return true;
+                }
+            }
+        case BISHOP:
+        case QUEEN:
+        case KING:
+        case PAWN:
+
+        case KNIGHT:
+            int bertil;
+    }
     return true;
 }
 

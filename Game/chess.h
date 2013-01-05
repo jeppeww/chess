@@ -11,7 +11,11 @@
 //
 #pragma once
 #include "board.h"
+#include <vector>
+#include <utility>
 #include "structs.h"
+
+using namespace std;
 
 class Chess
 {
@@ -23,9 +27,12 @@ public:
 	bool Move(Point _Position, Point _Destination);
 	void ChangeTurn();
     GameState StateOfGame();
+    vector<pair<Point, Point>> getPossibleMoves();
+    
 private:
     bool CanPreventCheck(Piece* _Piece);
 	bool InCheck(Players _Player);
 	Board m_Board;
 	Players m_CurrentPlayer;
-};
+    vector<pair<Point, Point>> m_PossibleMoves;
+}; 
