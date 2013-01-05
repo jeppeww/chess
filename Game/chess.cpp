@@ -11,6 +11,7 @@
 //
 #include "chess.h"
 #include "pieces.h"
+#include "math.h"
 
 Chess::Chess()
 {
@@ -140,6 +141,7 @@ bool Chess::InCheck(Players _Player)
 
 GameState Chess::StateOfGame()
 {
+    m_PossibleMoves.clear();
     Piece** playersPieces = m_CurrentPlayer == WHITE ?
         m_Board.getWhitePieces() : m_Board.getBlackPieces();
     
@@ -147,17 +149,21 @@ GameState Chess::StateOfGame()
     {
         if (playersPieces[i] != 0)
         {
-            if (CanPreventCheck(playersPieces[i]))
-                return UNDECIDED;
+            updatePossibleMoves(playersPieces[i]);
         }
     }
+    if (m_PossibleMoves.size() != 0)
+        return UNDECIDED;
+    
     return InCheck(m_CurrentPlayer) ? CHECKMATE : DRAW;
 }
 
-bool Chess::CanPreventCheck(Piece* _Piece)
+void Chess::updatePossibleMoves(Piece* _Piece)
 {
     Point curPos = _Piece->getPosition();
-    static const int diretions [4] = {0, 1, -1, 0};
+    static const int kDirections [4] = {0, 1, -1, 0};
+    static const int hDirections [4] = {1, -1};
+    Moves moveResult;
     
     switch (_Piece->getType())
     {
@@ -166,25 +172,170 @@ bool Chess::CanPreventCheck(Piece* _Piece)
             {
                 for (int l = 1; l < 8; l++)
                 {
-                    Moves attemptedMove = TryMove(curPos, curPos + Point(l * diretions[i],
-                                                                         l * diretions[(2 + i) % 4]));
+                    Moves attemptedMove = TryMove(curPos, curPos + Point(l * kDirections[i],
+                                                                         l * kDirections[(2 + i) % 4]));
                     if (attemptedMove == CANT)
                         break;
                     if (attemptedMove == CHECK)
                         continue;
                     
-                    return true;
+                    pair<Point, Point> move = pair<Point,Point> (curPos,
+                                        curPos + Point(l * kDirections[i],l * kDirections[(2 + i) % 4]));
+                    
+                    m_PossibleMoves.push_back(move);
                 }
             }
+            
         case BISHOP:
+            for (int i = 0; i < 4; i++)
+            {
+                for (int l = 1; l < 8; l++)
+                {
+                    Moves attemptedMove = TryMove(curPos, curPos + Point(l * hDirections[i],
+                                                                         l * hDirections[(2 + i) % 4]));
+                    if (attemptedMove == CANT)
+                        break;
+                    if (attemptedMove == CHECK)
+                        continue;
+                    
+                    pair<Point, Point> move = pair<Point,Point> (curPos,
+                                                                 curPos + Point(l * hDirections[i],l * hDirections[(int)floor(i/2)]));
+                    
+                    m_PossibleMoves.push_back(move);
+                }
+            }
+            
         case QUEEN:
+            for (int i = 0; i < 4; i++)
+            {
+                for (int l = 1; l < 8; l++)
+                {
+                    Moves attemptedMove = TryMove(curPos, curPos + Point(l * hDirections[i],
+                                                                         l * hDirections[(2 + i) % 4]));
+                    if (attemptedMove == CANT)
+                        break;
+                    if (attemptedMove == CHECK)
+                        continue;
+                    
+                    pair<Point, Point> move = pair<Point,Point> (curPos,
+                                                                 curPos + Point(l * hDirections[i],l * hDirections[(int)floor(i/2)]));
+                    
+                    m_PossibleMoves.push_back(move);
+                }
+                for (int l = 1; l < 8; l++)
+                {
+                    Moves attemptedMove = TryMove(curPos, curPos + Point(l * hDirections[i],
+                                                                         l * hDirections[(2 + i) % 4]));
+                    if (attemptedMove == CANT)
+                        break;
+                    if (attemptedMove == CHECK)
+                        continue;
+                    
+                    pair<Point, Point> move = pair<Point,Point> (curPos,
+                                                                 curPos + Point(l * hDirections[i],l * hDirections[(int)floor(i/2)]));
+                    
+                    m_PossibleMoves.push_back(move);
+                }
+            }
+            
         case KING:
+            
+            moveResult = TryMove(curPos, curPos + Point(1,0));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(1,0)));
+            
+            moveResult = TryMove(curPos, curPos + Point(1,1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(1,1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(0,1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(0,1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-1,1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-1,0));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,0)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-1,-1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,-1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(0,-1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(0,-1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(1,-1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(1,-1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(2,0));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(2,0)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-2,0));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-2,0)));
+            
         case PAWN:
-
+        {
+            int direction = _Piece->getOwner();     // -1 or 1
+            
+            
+            moveResult = TryMove(curPos, curPos + Point(0,direction));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(0,direction)));
+            
+            moveResult = TryMove(curPos, curPos + Point(0,direction * 2));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(0,direction * 2)));
+            
+            
+            moveResult = TryMove(curPos, curPos + Point(1,direction));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(1,direction)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-1,direction));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,direction)));
+        }
         case KNIGHT:
-            int bertil;
+            
+            moveResult = TryMove(curPos, curPos + Point(-2,1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-2,1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-1,2));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,-2)));
+            
+            moveResult = TryMove(curPos, curPos + Point(1,2));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(1,2)));
+            
+            moveResult = TryMove(curPos, curPos + Point(2,1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(2,1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(2,-1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(2,-1)));
+            
+            moveResult = TryMove(curPos, curPos + Point(1,-2));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(1,-2)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-1,-2));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,-2)));
+            
+            moveResult = TryMove(curPos, curPos + Point(-2,-1));
+            if (moveResult != CANT && moveResult != CHECK)
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-2,-1)));
     }
-    return true;
 }
 
 void Chess::ChangeTurn()

@@ -30,7 +30,7 @@ public:
     vector<pair<Point, Point>> getPossibleMoves();
     
 private:
-    bool CanPreventCheck(Piece* _Piece);
+    void updatePossibleMoves(Piece* _Piece);
 	bool InCheck(Players _Player);
 	Board m_Board;
 	Players m_CurrentPlayer;
