@@ -42,6 +42,8 @@ public:
 	virtual PieceTypes getType() = 0;
 	// Increments the number of moves this Piece has done.
 	void IncrementNumMoves();
+	// Gets the number of moves this Piece has done.
+	int GetNumMoves();
 
 protected:
 	//Checks wether the position is on the board and isn't on the piece istelf

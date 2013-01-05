@@ -86,12 +86,48 @@ void Piece::IncrementNumMoves()
 	m_NumMoves++;
 }
 
+int Piece::GetNumMoves()
+{
+	return m_NumMoves;
+}
+
 Moves King::canMove(Point _Destination)
 {
 	if(!ValidDestination(_Destination))
 		return CANT;
 
 	Point diff = _Destination - m_Position;
+
+	if((diff.m_X == 2 || diff.m_X == -2) && m_NumMoves == 0) //Castling
+	{
+		Point rookPosition = Point( (7 + 7 * diff.Normalized().m_X)/2, m_Position.m_Y);
+		Piece* rook = m_Board->getPieceInPosition(rookPosition);
+		if(rook == 0)
+			return CANT;
+		if(rook->GetNumMoves() != 0)
+			return CANT;
+
+		int max = absolute((rookPosition - m_Position).m_X);
+		Point step = diff.Normalized();
+		Piece** opposingPieces = m_Owner == BLACK ? m_Board->getWhitePieces() : m_Board->getBlackPieces();
+		for(int i = 1; i < max; ++i)
+		{
+			if ( m_Board->getPieceInPosition( m_Position + step*i) != 0)
+				return CANT;
+			if(i < 3) //only the two first steps are were the king will pass.
+			{
+				for(int i = 0; i < 16; i++)
+				{
+					if( opposingPieces[i] != 0)
+					{
+						if(opposingPieces[i]->canMove(m_Position + step*i) == MOVE)
+							return CANT;
+					}
+				}
+			}
+		}
+		return CASTLING;
+	}
 	if(diff.LengthSquared() >= 4) //only allows a single step in any direction
 		return CANT;
 

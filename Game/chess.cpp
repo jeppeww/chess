@@ -48,6 +48,13 @@ bool Chess::Move(Point _Position, Point _Destination)
 		m_Board.setEnPassant(0);
 		delete killedPiece;
 	}
+	else if(moveResult == CASTLING)
+	{
+		Point diff = _Destination - _Position;
+		Point rookPosition = Point( (7 + 7 * diff.Normalized().m_X)/2, _Position.m_Y);
+		Piece* rook = m_Board.getPieceInPosition(rookPosition);
+		rook->setPosition(_Destination - diff.Normalized());
+	}
 	movingPiece->setPosition(_Destination);
 	m_Board.setEnPassant(moveResult == DOUBLE ? movingPiece : 0); //resets the enPassant unless a pawn did a DOUBLE move.
 	return true;
@@ -87,7 +94,19 @@ Moves Chess::TryMove(Point _Position, Point _Destination)
 			return KILL;
 		}
 	case CASTLING:
-		return CANT; //TODO: Implement
+		{
+			Point diff = _Destination - _Position;
+			Point rookPosition = Point( (7 + 7 * diff.Normalized().m_X)/2, _Position.m_Y);
+			Piece* rook = m_Board.getPieceInPosition(rookPosition);
+			movingPiece->setPosition(_Destination);
+			rook->setPosition(_Destination - diff.Normalized());
+			check = InCheck(m_CurrentPlayer);
+			movingPiece->setPosition(_Position);
+			rook->setPosition(rookPosition);
+			if(check)
+				return CANT;
+			return CASTLING;
+		}
 	case ENPASSANT:
 		Piece* killedPiece = m_Board.getPieceInPosition(Point(_Destination.m_X, _Position.m_Y));
 		killedPiece->detach();
