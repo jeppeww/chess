@@ -104,7 +104,7 @@ Moves Chess::TryMove(Point _Position, Point _Destination)
 			movingPiece->setPosition(_Position);
 			rook->setPosition(rookPosition);
 			if(check)
-				return CANT;
+				return CHECK;
 			return CASTLING;
 		}
 	case ENPASSANT:
