@@ -342,3 +342,8 @@ void Chess::ChangeTurn()
 {
 	m_CurrentPlayer = m_CurrentPlayer == WHITE ? BLACK : WHITE;
 }
+
+vector<pair<Point,Point>> Chess::getPossibleMoves()
+{
+	return m_PossibleMoves;
+}

@@ -102,8 +102,12 @@ bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
 
 int main()
 {
-	while(true)
+	GameState gState = UNDECIDED;
+	while(gState == UNDECIDED)
 	{
+		gState = ChessGame.StateOfGame();
+		int number = ChessGame.getPossibleMoves().size();
+		printf("\n Number moves possible: %d", number);
 		Render();
 		bool noProperMove = true;
 		while(noProperMove)
@@ -127,6 +131,6 @@ int main()
 		}
 		ChessGame.ChangeTurn();
 	}
-
+	//Game is over, do shit.
 	return 0;
 }
