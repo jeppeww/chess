@@ -28,11 +28,11 @@ Piece* Chess::GetPieceAt(Point _Position)
 	return m_Board.getPieceInPosition(_Position);
 }
 
-bool Chess::Move(Point _Position, Point _Destination)
+MoveReturns Chess::Move(Point _Position, Point _Destination)
 {
 	Moves moveResult = TryMove(_Position, _Destination);
 	if(moveResult == CANT)
-		return false;
+		return INVALID;
 
 	Piece* movingPiece = m_Board.getPieceInPosition(_Position);
 	movingPiece->IncrementNumMoves(); //used for pawns and Castling.
@@ -58,7 +58,9 @@ bool Chess::Move(Point _Position, Point _Destination)
 	}
 	movingPiece->setPosition(_Destination);
 	m_Board.setEnPassant(moveResult == DOUBLE ? movingPiece : 0); //resets the enPassant unless a pawn did a DOUBLE move.
-	return true;
+	if(movingPiece->getType() == PAWN && ( _Destination.m_Y == 0 || _Destination.m_Y == 0))
+		return PROMOTION;
+	return VALID;
 }
 
 Moves Chess::TryMove(Point _Position, Point _Destination)
@@ -346,4 +348,34 @@ void Chess::ChangeTurn()
 vector<pair<Point,Point>> Chess::getPossibleMoves()
 {
 	return m_PossibleMoves;
+}
+
+
+void Chess::Promote(Point _Position, PieceTypes _Type)
+{
+	Piece* promotionPiece = m_Board.getPieceInPosition(_Position);
+	int index = promotionPiece->getIndex();
+	Players owner = promotionPiece->getOwner();
+	promotionPiece->detach();
+	delete promotionPiece;
+	switch (_Type)
+	{
+	case QUEEN:
+		promotionPiece = new Queen(_Position, owner, index, &m_Board);
+		break;
+	case ROOK:
+		promotionPiece = new Rook(_Position, owner, index, &m_Board);
+		break;
+	case KNIGHT:
+		promotionPiece = new Knight(_Position, owner, index, &m_Board);
+		break;
+	case BISHOP:
+		promotionPiece = new Bishop(_Position, owner, index, &m_Board);
+		break;
+	}
+	m_Board.setPieceAtPosition(_Position, promotionPiece);
+	if(owner == WHITE) 
+		m_Board.getWhitePieces()[index] = promotionPiece;
+	else
+		m_Board.getBlackPieces()[index] = promotionPiece;
 }

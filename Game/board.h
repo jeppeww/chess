@@ -23,17 +23,14 @@ class Board
 public:
 	Board();
 	~Board();
-
 	// Return the piece in the specified position. Returns NULL if the position is illegal or there is no piece in it. 
 	Piece* getPieceInPosition(Point _Position);
 	// Return the n'th white piece
 	Piece* getWhitePiece(int _Index);
 	// Return the n'th black piece
 	Piece* getBlackPiece(int _Index);
-
 	// Put the selected piece unto the selected position, or 0 if the position is to be cleared.
 	void setPieceAtPosition(Point _Position, Piece* _Piece);
-
 	// Returns an Array containing every white piece.
 	Piece** getWhitePieces();
 	// Returns an array containing every black piece.

@@ -81,12 +81,17 @@ Players Piece::getOwner()
 	return m_Owner;
 }
 
+int Piece::getIndex()
+{
+	return m_Index;
+}
+
 void Piece::IncrementNumMoves()
 {
 	m_NumMoves++;
 }
 
-int Piece::GetNumMoves()
+int Piece::getNumMoves()
 {
 	return m_NumMoves;
 }
@@ -104,7 +109,7 @@ Moves King::canMove(Point _Destination)
 		Piece* rook = m_Board->getPieceInPosition(rookPosition);
 		if(rook == 0)
 			return CANT;
-		if(rook->GetNumMoves() != 0)
+		if(rook->getNumMoves() != 0)
 			return CANT;
 
 		int max = absolute((rookPosition - m_Position).m_X);

@@ -95,3 +95,10 @@ enum GameState
     DRAW,
     UNDECIDED
 };
+
+enum MoveReturns
+{
+	VALID,
+	INVALID,
+	PROMOTION
+};

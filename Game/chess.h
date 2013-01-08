@@ -22,12 +22,20 @@ class Chess
 public:
 	Chess();
 	~Chess();
+	//Returns the piece at the given position.
 	Piece* GetPieceAt(Point _Position);
+	//Attemps a move, returns the resulting type of move
 	Moves TryMove(Point _Position, Point _Destination);
-	bool Move(Point _Position, Point _Destination);
+	//Moves a piece, returns wether the move was VALID, INVALID or resulted in a PROMOTION.
+	MoveReturns Move(Point _Position, Point _Destination);
+	//Changes the current player
 	void ChangeTurn();
+	//Checks the gamestate, updates the list of possible moves.
     GameState StateOfGame();
+	//Returns a list of all possible moves this turn.
     vector<pair<Point, Point>> getPossibleMoves();
+	//Promotes a piece at _Position to _Type.
+	void Promote(Point _Position, PieceTypes _Type);
     
 private:
     void updatePossibleMoves(Piece* _Piece);

@@ -40,6 +40,7 @@ char GetChar(Piece* _Piece)
 	}
 }
 
+//Renders the board.
 void Render()
 {
 	printf("\n");
@@ -53,6 +54,7 @@ void Render()
 	printf("   a b c d e f g h");
 }
 
+//Parses move input.
 bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
 {
     int posX, posY, desX, desY;
@@ -100,6 +102,30 @@ bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
     return true;
 }
 
+//Parses pawn promotion input.
+bool ParsePromotionInput(char* _Input, PieceTypes& _Result)
+{
+    if (_Input[0] == 'q' && _Input[0] == 'Q')
+    {
+		_Result == QUEEN;
+    }
+    else if (_Input[0] == 'r' && _Input[0] == 'R')
+    {
+		_Result == ROOK;
+    }
+	else if (_Input[0] == 'b' && _Input[0] == 'B')
+    {
+		_Result == BISHOP;
+    }
+	else if (_Input[0] == 'n' && _Input[0] == 'N')
+    {
+		_Result == KNIGHT;
+    }
+    else
+        return false;
+    return true;
+}
+
 int main()
 {
 	GameState gState = UNDECIDED;
@@ -107,7 +133,7 @@ int main()
 	{
 		gState = ChessGame.StateOfGame();
 		int number = ChessGame.getPossibleMoves().size();
-		printf("\n Number moves possible: %d", number);
+		printf("\nNumber moves possible: %d", number);
 		Render();
 		bool noProperMove = true;
 		while(noProperMove)
@@ -118,15 +144,29 @@ int main()
 			Point position, destination;
 			if(ParseInput(input, position, destination))
 			{
-				noProperMove = !ChessGame.Move(position, destination);
+				MoveReturns moveReturn = ChessGame.Move(position, destination);
+				noProperMove = (moveReturn != INVALID);
 				if(noProperMove)
 				{
-					printf("\nnej");
+					printf("\nInvalid move.");
+				}
+				else if(moveReturn == PROMOTION)
+				{
+					PieceTypes type;
+					while(true)
+					{
+						printf("\nA pawn is to be promoted, input piece type (Q, R, B or N): ");
+						fgets(input, 100, stdin);
+						if(!ParsePromotionInput(input, type))
+							break;
+						printf("\nInvalid input.");
+					}
+					ChessGame.Promote(destination, type);
 				}
 			}
 			else
 			{
-				printf("\nPlease input properly next time.");
+				printf("\nPlease provide proper input next time.");
 			}
 		}
 		ChessGame.ChangeTurn();

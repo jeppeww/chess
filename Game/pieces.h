@@ -38,12 +38,14 @@ public:
 	void attach();
 	// Returns the owner of the piece.
 	Players getOwner();
+	// Returns the index of the piece.
+	int getIndex();
 	// Returns the character for the Piece
 	virtual PieceTypes getType() = 0;
 	// Increments the number of moves this Piece has done.
 	void IncrementNumMoves();
 	// Gets the number of moves this Piece has done.
-	int GetNumMoves();
+	int getNumMoves();
 
 protected:
 	//Checks wether the position is on the board and isn't on the piece istelf
