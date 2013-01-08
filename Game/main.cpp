@@ -107,19 +107,19 @@ bool ParsePromotionInput(char* _Input, PieceTypes& _Result)
 {
     if (_Input[0] == 'q' && _Input[0] == 'Q')
     {
-		_Result == QUEEN;
+		_Result = QUEEN;
     }
     else if (_Input[0] == 'r' && _Input[0] == 'R')
     {
-		_Result == ROOK;
+		_Result = ROOK;
     }
 	else if (_Input[0] == 'b' && _Input[0] == 'B')
     {
-		_Result == BISHOP;
+		_Result = BISHOP;
     }
 	else if (_Input[0] == 'n' && _Input[0] == 'N')
     {
-		_Result == KNIGHT;
+		_Result = KNIGHT;
     }
     else
         return false;
