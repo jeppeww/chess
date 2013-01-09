@@ -36,7 +36,8 @@ public:
     vector<pair<Point, Point>> getPossibleMoves();
 	//Promotes a piece at _Position to _Type.
 	void Promote(Point _Position, PieceTypes _Type);
-    
+    //Returns the current player for this turn.
+	Players GetCurrentPlayer();
 private:
     void updatePossibleMoves(Piece* _Piece);
 	bool InCheck(Players _Player);

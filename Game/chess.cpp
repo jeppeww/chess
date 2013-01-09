@@ -187,7 +187,7 @@ void Chess::updatePossibleMoves(Piece* _Piece)
                     m_PossibleMoves.push_back(move);
                 }
             }
-            
+        break;
         case BISHOP:
             for (int i = 0; i < 4; i++)
             {
@@ -206,7 +206,7 @@ void Chess::updatePossibleMoves(Piece* _Piece)
                     m_PossibleMoves.push_back(move);
                 }
             }
-            
+        break;
         case QUEEN:
             for (int i = 0; i < 4; i++)
             {
@@ -239,7 +239,7 @@ void Chess::updatePossibleMoves(Piece* _Piece)
                     m_PossibleMoves.push_back(move);
                 }
             }
-            
+        break;
         case KING:
             
             moveResult = TryMove(curPos, curPos + Point(1,0));
@@ -281,7 +281,7 @@ void Chess::updatePossibleMoves(Piece* _Piece)
             moveResult = TryMove(curPos, curPos + Point(-2,0));
             if (moveResult != CANT && moveResult != CHECK)
                 m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-2,0)));
-            
+        break;
         case PAWN:
         {
             int direction = _Piece->getOwner();     // -1 or 1
@@ -304,6 +304,7 @@ void Chess::updatePossibleMoves(Piece* _Piece)
             if (moveResult != CANT && moveResult != CHECK)
                 m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,direction)));
         }
+        break;
         case KNIGHT:
             
             moveResult = TryMove(curPos, curPos + Point(-2,1));
@@ -312,7 +313,7 @@ void Chess::updatePossibleMoves(Piece* _Piece)
             
             moveResult = TryMove(curPos, curPos + Point(-1,2));
             if (moveResult != CANT && moveResult != CHECK)
-                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,-2)));
+                m_PossibleMoves.push_back(pair<Point,Point> (curPos, curPos + Point(-1,2)));
             
             moveResult = TryMove(curPos, curPos + Point(1,2));
             if (moveResult != CANT && moveResult != CHECK)
@@ -378,4 +379,9 @@ void Chess::Promote(Point _Position, PieceTypes _Type)
 		m_Board.getWhitePieces()[index] = promotionPiece;
 	else
 		m_Board.getBlackPieces()[index] = promotionPiece;
+}
+
+Players Chess::GetCurrentPlayer()
+{
+	return m_CurrentPlayer;
 }

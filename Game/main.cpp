@@ -12,6 +12,7 @@
 #include "pieces.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 
 Chess ChessGame;
@@ -58,10 +59,22 @@ void Render()
 bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
 {
     int posX, posY, desX, desY;
+	if(strncmp(_Input, "0-0", 3) == 0) //Castling special cases.
+	{
+		_Result1 = Point( 4, (7 + 7 * -ChessGame.GetCurrentPlayer())/2);
+		_Result2 = Point( 7 , (7 + 7 * -ChessGame.GetCurrentPlayer())/2);
+		return true;
+	}
+	else if(strncmp(_Input, "0-0-0", 5) == 0)
+	{
+		_Result1 = Point( 4, (7 + 7 * -ChessGame.GetCurrentPlayer())/2);
+		_Result2 = Point( 0, (7 + 7 * -ChessGame.GetCurrentPlayer())/2);
+		return true;
+	}
     
     if (_Input[0] >= 'a' && _Input[0] <= 'h')
     {
-        posX =(int) (_Input[0] - 'a');
+        posX = (int) (_Input[0] - 'a');
     }
     else if (_Input[0] >= 'A' && _Input[0] <= 'Z')
     {
@@ -72,14 +85,14 @@ bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
     
     if (_Input[1] >= '1' && _Input[1] <= '8')
     {
-        posY =(int) (_Input[1] - '1');
+        posY = (int) (_Input[1] - '1');
     }
     else
         return false;
     
     if (_Input[3] >= 'a' && _Input[3] <= 'h')
     {
-        desX =(int) (_Input[3] - 'a');
+        desX = (int) (_Input[3] - 'a');
     }
     else if (_Input[3] >= 'A' && _Input[3] <= 'Z')
     {
@@ -90,7 +103,7 @@ bool ParseInput(char* _Input, Point& _Result1, Point& _Result2)
     
     if (_Input[4] >= '1' && _Input[4] <= '8')
     {
-        desY =(int) (_Input[4] - '1');
+        desY = (int) (_Input[4] - '1');
     }
     else
         return false;
@@ -126,26 +139,41 @@ bool ParsePromotionInput(char* _Input, PieceTypes& _Result)
     return true;
 }
 
+void PrintMoves(vector<pair<Point,Point>> _Moves)
+{
+	for(unsigned int i = 0; i < _Moves.size(); i++)
+	{
+		printf("\n%c%i-%c%i",
+			(char) ((int)'a' + _Moves[i].first.m_X),
+			_Moves[i].first.m_Y + 1,
+			(char) ((int)'a' + _Moves[i].second.m_X),
+			_Moves[i].second.m_Y + 1);
+	}
+}
+
 int main()
 {
-	GameState gState = UNDECIDED;
+	GameState gState = ChessGame.StateOfGame();
 	while(gState == UNDECIDED)
 	{
-		gState = ChessGame.StateOfGame();
-		int number = ChessGame.getPossibleMoves().size();
-		printf("\nNumber moves possible: %d", number);
+		system("cls");
 		Render();
 		bool noProperMove = true;
 		while(noProperMove)
 		{
-			printf("\nInput move (format xy-xy): ");
+			printf("\nInput move (format xy-xy, type \"MOVES\" for list): ");
 			char input[100];
-			fgets(input, 100, stdin);
+			cin >> input;
+			if(strncmp(input,"MOVES",5) == 0)
+			{
+				PrintMoves(ChessGame.getPossibleMoves());
+				continue;
+			}
 			Point position, destination;
 			if(ParseInput(input, position, destination))
 			{
 				MoveReturns moveReturn = ChessGame.Move(position, destination);
-				noProperMove = (moveReturn != INVALID);
+				noProperMove = (moveReturn == INVALID);
 				if(noProperMove)
 				{
 					printf("\nInvalid move.");
@@ -156,7 +184,7 @@ int main()
 					while(true)
 					{
 						printf("\nA pawn is to be promoted, input piece type (Q, R, B or N): ");
-						fgets(input, 100, stdin);
+						cin >> input;
 						if(!ParsePromotionInput(input, type))
 							break;
 						printf("\nInvalid input.");
@@ -170,7 +198,13 @@ int main()
 			}
 		}
 		ChessGame.ChangeTurn();
+		gState = ChessGame.StateOfGame();
 	}
-	//Game is over, do shit.
+	if(gState == DRAW)
+		printf("\nGame resulted in a draw");
+	else
+		printf("\n%s player won the game.", (ChessGame.GetCurrentPlayer() == WHITE) ? "White" : "Black");
+	cin.get();
+	cin.get();
 	return 0;
 }
